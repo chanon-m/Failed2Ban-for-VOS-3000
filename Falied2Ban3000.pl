@@ -54,7 +54,7 @@ foreach my $line (@lines) {
           print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
           my $returncode = system("/sbin/iptables -A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP");
           if($returncode != 0) {
-              print "Falied to add rules in iptables!\n";
+              print "Could not add $heckip[$j] in iptables rule!\n";
           } else {
               print "Bloacked IP Address : $heckip[$j]\n";          
           }
