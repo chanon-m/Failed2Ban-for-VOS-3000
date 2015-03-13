@@ -49,14 +49,15 @@ foreach my $line (@lines) {
 
    if($i == $linenum) {
       for(my $j=0; $j < $count; $j++) {
-        if($heckip[$j]!="") {
+        if($heckip[$j] ne "") {
           #Update a rule in IPtables   
           print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
           my $returncode = system("/sbin/iptables -A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP");
           if($returncode != 0) {
               print "Falied to add rules in iptables!\n";
+          } else {
+              print "Bloacked IP Address : $heckip[$j]\n";          
           }
-
         }
       }
       print $fh $line;
