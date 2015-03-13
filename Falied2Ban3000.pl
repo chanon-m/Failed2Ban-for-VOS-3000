@@ -56,7 +56,7 @@ foreach my $line (@lines) {
           if($returncode != 0) {
               print "Could not add $heckip[$j] in iptables rule!\n";
           } else {
-              print "Bloacked IP Address : $heckip[$j]\n";          
+              print "Bloacked IP Address : $heckip[$j] \n";          
           }
         }
       }
