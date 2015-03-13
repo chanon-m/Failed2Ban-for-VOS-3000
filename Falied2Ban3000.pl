@@ -50,8 +50,8 @@ foreach my $line (@lines) {
    if($i == $linenum) {
       for(my $j=0; $j < $count; $j++) {
         if($heckip[$j]!="") {
+          #Update a rule in IPtables   
           print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
-          #Update a rule in IPtables
           my $returncode = system("/sbin/iptables -A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP");
           if($returncode != 0) {
               print "Falied to add rules in iptables!\n";
