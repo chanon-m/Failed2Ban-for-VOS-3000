@@ -37,7 +37,7 @@ move("/etc/sysconfig/iptables","/etc/sysconfig/iptables.$t") or die "Could not b
 
 #Update an iptables configuration file
 my $i=0;
-open(my $fh, '>',"/etc/sysconfig/iptables") or die "Could not open file!\n";
+open($fh, '>',"/etc/sysconfig/iptables") or die "Could not open file!\n";
 foreach my $line (@lines) {
 
    for(my $j=0; $j < $count; $j++) {
