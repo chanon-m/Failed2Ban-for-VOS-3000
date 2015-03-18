@@ -41,7 +41,7 @@ open($fh, '>',"/etc/sysconfig/iptables") or die "Could not open file!\n";
 foreach my $line (@lines) {
 
    for(my $j=0; $j < $count; $j++) {
-       my $str = "-I RH-Firewall-1-INPUT 2 -s $heckip[$j] -j DROP\n";
+       my $str = "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
        if($line eq $str) {
          $heckip[$j]="";
        }
@@ -52,7 +52,7 @@ foreach my $line (@lines) {
         if($heckip[$j] ne "") {
           #Update a rule in IPtables   
           print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
-          my $returncode = system("/sbin/iptables -A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP");
+          my $returncode = system("/sbin/iptables -I RH-Firewall-1-INPUT 2 -s $heckip[$j] -j DROP");
           if($returncode != 0) {
               print "Could not add $heckip[$j] in iptables rule!\n";
           } else {
