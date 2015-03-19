@@ -12,7 +12,7 @@ my $db = DBI->connect(
 
 #Query illegal calls
 my $query = $db->prepare("select DISTINCT callerip from e_cdr where endreason = '-9'");
-$query->execute();
+$query->execute() or die "Couldn't execute statement!\n";
 
 my $rows;
 my $count=0;
