@@ -18,7 +18,7 @@ Reported bugs can be sent to chanonm@live.com
 
 ```
 
-cp ./Failed2Ban3000.pl /etc
+# cp ./Failed2Ban3000.pl /etc
 
 ```
 
@@ -26,7 +26,7 @@ cp ./Failed2Ban3000.pl /etc
 
 ```
 
-chmod 755 /etc/Failed2Ban3000.pl
+# chmod 755 /etc/Failed2Ban3000.pl
 
 ```
 
@@ -35,6 +35,8 @@ chmod 755 /etc/Failed2Ban3000.pl
 If you want Failed2Ban3000.pl to run every 5 minutes, you should code the time as:
 
 ```
+
+# crontab -e
 
 */5 * * * *      /etc/Failed2Ban3000.pl >> /var/log/failed2ban3000.log&
 
