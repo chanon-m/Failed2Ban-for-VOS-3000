@@ -25,44 +25,46 @@ while ($rows = $query->fetchrow_arrayref()) {
 $query->finish();
 $db->disconnect();
 
-#Read iptables configuration
-open(my $fh, '<',"/etc/sysconfig/iptables") or die "Could not open file!\n";
-my @lines=<$fh>;
-my $linenum = scalar(@lines) - 2;
-close $fh;
+if($count > 0) {
+  #Read iptables configuration
+  open(my $fh, '<',"/etc/sysconfig/iptables") or die "Could not open file!\n";
+  my @lines=<$fh>;
+  my $linenum = scalar(@lines) - 2;
+  close $fh;
 
-#Backup iptables file
-my $t = localtime;
-move("/etc/sysconfig/iptables","/etc/sysconfig/iptables.$t") or die "Could not backup file!\n";
+  #Backup iptables file
+  my $t = localtime;
+  move("/etc/sysconfig/iptables","/etc/sysconfig/iptables.$t") or die "Could not backup file!\n";
 
-#Update an iptables configuration file
-my $i=0;
-open($fh, '>',"/etc/sysconfig/iptables") or die "Could not open file!\n";
-foreach my $line (@lines) {
+  #Update an iptables configuration file
+  my $i=0;
+  open($fh, '>',"/etc/sysconfig/iptables") or die "Could not open file!\n";
+  foreach my $line (@lines) {
 
-   for(my $j=0; $j < $count; $j++) {
-       my $str = "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
-       if($line eq $str) {
-         $heckip[$j]="";
-       }
-   }
+     for(my $j=0; $j < $count; $j++) {
+         my $str = "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
+         if($line eq $str) {
+           $heckip[$j]="";
+         }
+     }
 
-   if($i == $linenum) {
-      for(my $j=0; $j < $count; $j++) {
-        if($heckip[$j] ne "") {
-          #Update a rule in IPtables   
-          print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
-          my $returncode = system("/sbin/iptables -I RH-Firewall-1-INPUT 2 -s $heckip[$j] -j DROP");
-          if($returncode != 0) {
-              print "Could not add $heckip[$j] in iptables rule!\n";
-          } else {
-              print "Bloacked IP Address : $heckip[$j] \n";          
+     if($i == $linenum) {
+        for(my $j=0; $j < $count; $j++) {
+          if($heckip[$j] ne "") {
+            #Update a rule in IPtables   
+            print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
+            my $returncode = system("/sbin/iptables -I RH-Firewall-1-INPUT 2 -s $heckip[$j] -j DROP");
+            if($returncode != 0) {
+                print "Could not add $heckip[$j] in iptables rule!\n";
+            } else {
+                print "Bloacked IP Address : $heckip[$j] \n";          
+            }
           }
         }
-      }
-      print $fh $line;
-   } else {
-       print $fh $line;
-   }
-   $i++;
+        print $fh $line;
+     } else {
+         print $fh $line;
+     }
+     $i++;
+  }
 }
