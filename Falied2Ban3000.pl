@@ -26,45 +26,45 @@ $query->finish();
 $db->disconnect();
 
 if($count > 0) {
-  #Read iptables configuration
-  open(my $fh, '<',"/etc/sysconfig/iptables") or die "Could not open file!\n";
-  my @lines=<$fh>;
-  my $linenum = scalar(@lines) - 2;
-  close $fh;
+    #read iptables configuration
+    open(my $fh, '<',"/etc/sysconfig/iptables") or die "Could not open file!\n";
+    my @lines=<$fh>;
+    close $fh;
 
-  #Backup iptables file
-  my $t = localtime;
-  move("/etc/sysconfig/iptables","/etc/sysconfig/iptables.$t") or die "Could not backup file!\n";
-
-  #Update an iptables configuration file
-  my $i=0;
-  open($fh, '>',"/etc/sysconfig/iptables") or die "Could not open file!\n";
-  foreach my $line (@lines) {
-
-     for(my $j=0; $j < $count; $j++) {
-         my $str = "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
-         if($line eq $str) {
-           $heckip[$j]="";
-         }
-     }
-
-     if($i == $linenum) {
-        for(my $j=0; $j < $count; $j++) {
-          if($heckip[$j] ne "") {
-            #Update a rule in IPtables   
-            print $fh "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP\n";
-            my $returncode = system("/sbin/iptables -I RH-Firewall-1-INPUT 2 -s $heckip[$j] -j DROP");
-            if($returncode != 0) {
-                print "Could not add $heckip[$j] in iptables rule!\n";
-            } else {
-                print "Bloacked IP Address : $heckip[$j] \n";          
+    #find duplicated ip
+    foreach my $line (@lines) {
+       chomp $line;
+       for(my $j=0; $j < $count; $j++) {
+            my $str = "-A RH-Firewall-1-INPUT -s $heckip[$j] -j DROP";
+            if($line =~ /$str/) {
+              $heckip[$j] = "";
             }
-          }
+       }
+    }
+
+    #add new iptables rules
+    my $add_rule = 0;
+    foreach my $ip (@heckip) {
+       if($ip ne "") {
+           my $returncode = system("/sbin/iptables -I RH-Firewall-1-INPUT 2 -s $ip -j DROP");
+           if($returncode != 0) {
+                print "Falied to add rules in iptables!\n";
+           } else {
+                $add_rule++;
+                print "Bloacked IP Address : $ip\n";
+           }
+       }
+    }
+
+    #backup iptables file and save new iptables rules
+    if($add_rule > 0) {
+        my $t = localtime;
+        move("/etc/sysconfig/iptables","/etc/sysconfig/iptables.$t") or die "Could not backup file!\n";
+        my $returncode = system("/sbin/service iptables save");
+        if($returncode != 0) {
+            print "$t Falied to save iptables!\n";
+        } else {
+            print "$t iptables save!\n";
         }
-        print $fh $line;
-     } else {
-         print $fh $line;
-     }
-     $i++;
-  }
+    }
 }
