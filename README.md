@@ -14,11 +14,19 @@ Reported bugs can be sent to chanonm@live.com
 
 #How to run file
 
-* Upload Failed2Ban3000.pl to your VOS3000 SoftSwitch in /etc
+* Download files in your server
 
 ```
 
-# cp ./Failed2Ban3000.pl /etc
+# git clone https://github.com/chanon-m/Failed2Ban-for-VOS-3000
+
+```
+
+* Copy Failed2Ban3000.pl to your VOS3000 SoftSwitch in /etc
+
+```
+
+# cp ./Failed2Ban-for-VOS-3000/Failed2Ban3000.pl /etc
 
 ```
 
