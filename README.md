@@ -18,7 +18,7 @@ Reported bugs can be sent to chanonm@live.com
 
 ```
 
-# git clone https://github.com/chanon-m/Failed2Ban-for-VOS-3000
+# git clone https://github.com/chanon-m/Failed2Ban-for-VOS-3000.git
 
 ```
 
