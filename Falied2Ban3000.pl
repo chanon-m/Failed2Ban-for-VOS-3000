@@ -17,6 +17,7 @@ $query->execute() or die "Couldn't execute statement!\n";
 my $rows;
 my $count=0;
 my @heckip;
+my $t = localtime;
 
 while ($rows = $query->fetchrow_arrayref()) {
     $heckip[$count++] = @$rows[0];
@@ -48,17 +49,16 @@ if($count > 0) {
        if($ip ne "") {
            my $returncode = system("/sbin/iptables -I RH-Firewall-1-INPUT 2 -s $ip -j DROP");
            if($returncode != 0) {
-                print "Falied to add rules in iptables!\n";
+                print "$t Falied to add rules in iptables!\n";
            } else {
                 $add_rule++;
-                print "Bloacked IP Address : $ip\n";
+                print "$t Bloacked IP Address : $ip\n";
            }
        }
     }
 
     #backup iptables file and save new iptables rules
     if($add_rule > 0) {
-        my $t = localtime;
         move("/etc/sysconfig/iptables","/etc/sysconfig/iptables.$t") or die "Could not backup file!\n";
         my $returncode = system("/sbin/service iptables save");
         if($returncode != 0) {
