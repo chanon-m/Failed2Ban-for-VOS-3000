@@ -49,7 +49,7 @@ Reported bugs can be sent to chanonm@live.com
 * Format for the whitelist
 
 ```
-whitelist.ini
+--whitelist.ini
 ip1
 ip2
 
