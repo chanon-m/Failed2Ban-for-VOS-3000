@@ -48,7 +48,7 @@ Reported bugs can be sent to chanonm@live.com
 
 * Format for the whitelist
 
-##whitelist.ini
+####_whitelist.ini_
 ```
 ip1
 ip2
