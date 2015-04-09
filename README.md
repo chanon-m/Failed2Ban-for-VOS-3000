@@ -46,6 +46,15 @@ Reported bugs can be sent to chanonm@live.com
 
 ```
 
+* Format for the whitelist
+
+```
+whitelist.ini
+ip1
+ip2
+
+```
+
 * Create a crontab job on your server
 
 If you want Failed2Ban3000.pl to run every 5 minutes, you should code the time as:
