@@ -38,6 +38,14 @@ Reported bugs can be sent to chanonm@live.com
 
 ```
 
+* Copy whitelist file to /etc
+
+```
+
+# cp -r ./Failed2Ban-for-VOS-3000/etc/failed2ban3000 /etc
+
+```
+
 * Create a crontab job on your server
 
 If you want Failed2Ban3000.pl to run every 5 minutes, you should code the time as:
