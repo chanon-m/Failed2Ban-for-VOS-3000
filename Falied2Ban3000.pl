@@ -27,6 +27,21 @@ $query->finish();
 $db->disconnect();
 
 if($count > 0) {
+    #read and apply whitelist
+    if(open(my $fh, '<',"/etc/failed2ban3000/whitelist.ini")) {
+        my @whitelistlines=<$fh>;
+        close $fh;
+        foreach my $whitelist (@whitelistlines) {
+            chomp $whitelist;
+            for(my $j=0; $j < $count; $j++) {
+                 if($whitelist =~ /$heckip[$j]/) {
+                     $heckip[$j] = "";
+                 }
+            }
+
+        }
+    }
+     
     #read iptables configuration
     open(my $fh, '<',"/etc/sysconfig/iptables") or die "Could not open file!\n";
     my @lines=<$fh>;
