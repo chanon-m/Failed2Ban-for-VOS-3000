@@ -1,6 +1,8 @@
 # Failed2Ban-for-VOS-3000
 Avoided SIP attackers for VOS 3000 SoftSwitch
 
+![Alt text](http://www.icalleasy.com/images/basic_voip_system.png "Basic VOIP System") 
+
 #Licensing Information: READ LICENSE
 
 #Project source can be downloaded from
