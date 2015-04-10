@@ -78,7 +78,7 @@ If you want Failed2Ban3000.pl to run every 5 minutes, you should code the time a
 *mangle
 -A OUTPUT -p udp -m udp --sport 5060 -j DSCP --set-dscp-class cs3
 -A OUTPUT -p udp -m udp --dport 5060 -j DSCP --set-dscp-class cs3
--A OUTPUT -p udp -m udp --sport 10000:62767 -j DSCP --set-dscp-class ef
+-A OUTPUT -p udp -m udp --sport 10000:30000 -j DSCP --set-dscp-class ef
 COMMIT
 
 ```
