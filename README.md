@@ -16,7 +16,7 @@ Reported bugs can be sent to chanonm@live.com
 
 #How to run file
 
-* Download files in your server
+* Download files to your server
 
 ```
 
